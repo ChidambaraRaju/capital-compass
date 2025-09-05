@@ -55,6 +55,7 @@ The core of Capital Compass is a **stateful graph built with LangGraph**. This o
 
 ### Workflow Diagram
 
+```mermaid
 %%{init: {
   "theme": "dark",
   "themeVariables": {
@@ -89,7 +90,7 @@ graph TD
     class D,E analyze
     class F critic
     class G final
-
+```
 
 ---
 
