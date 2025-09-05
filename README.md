@@ -52,8 +52,8 @@ The core of Capital Compass is a **stateful graph built with LangGraph**. This o
    - *Sentiment Analyst Agent*: Evaluates qualitative news & market perception.  
 3. **Critical Review** – A *Critic Agent* challenges both analyses to identify weaknesses, risks, or contradictions.  
 4. **Final Synthesis** – A *Senior Advisor Agent* combines all inputs into a decisive investment report.  
-
-### Workflow Diagram
+---
+## 🎯 Workflow Diagram
 
 ```mermaid
 %%{init: {
