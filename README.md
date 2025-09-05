@@ -117,7 +117,7 @@ Follow these steps to get a local copy running:
 
 Clone the repository:
 ```bash
-git clone https://github.com/your_username/capital-compass.git
+git clone https://github.com/ChidambaraRaju/capital-compass
 cd capital-compass
 ```
 
