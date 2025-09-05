@@ -55,7 +55,19 @@ The core of Capital Compass is a **stateful graph built with LangGraph**. This o
 
 ### Workflow Diagram
 
-```mermaid
+%%{init: {
+  "theme": "dark",
+  "themeVariables": {
+    "primaryColor": "#0b1220",
+    "primaryTextColor": "#E5E7EB",
+    "primaryBorderColor": "#93C5FD",
+    "lineColor": "#93C5FD",
+    "tertiaryColor": "#111827",
+    "fontSize": "14px",
+    "fontFamily": "Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto"
+  }
+}}%%
+
 graph TD
     A[Start: User Enters Ticker] --> B(Fetch Overview)
     A --> C(Fetch News)
@@ -66,13 +78,18 @@ graph TD
     F --> G[Generate Final Report]
     G --> H[End: Display Report]
 
-    style B fill:#E0E7FF,stroke:#5B21B6
-    style C fill:#E0E7FF,stroke:#5B21B6
-    style D fill:#DBEAFE,stroke:#1D4ED8
-    style E fill:#DBEAFE,stroke:#1D4ED8
-    style F fill:#FEE2E2,stroke:#B91C1C
-    style G fill:#D1FAE5,stroke:#047857
-```
+    %% Dark-friendly styles
+    classDef fetch fill:#0F172A,stroke:#818CF8,color:#E5E7EB,stroke-width:2px
+    classDef analyze fill:#111827,stroke:#60A5FA,color:#E5E7EB,stroke-width:2px
+    classDef critic fill:#1F0A0A,stroke:#FCA5A5,color:#FEE2E2,stroke-width:2px
+    classDef final fill:#052E2B,stroke:#34D399,color:#D1FAE5,stroke-width:2px
+    classDef default fill:#0B1220,stroke:#93C5FD,color:#E5E7EB,stroke-width:1.5px
+
+    class B,C fetch
+    class D,E analyze
+    class F critic
+    class G final
+
 
 ---
 
