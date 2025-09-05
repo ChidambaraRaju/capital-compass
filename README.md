@@ -38,7 +38,7 @@ The application leverages a sophisticated **multi-agent system** built with **La
 
 ## 🚀 Live Demo
 
-_Coming soon..._
+<video src="assets/demo.mp4" controls width="600"></video>
 
 ---
 
