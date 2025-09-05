@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/logo.png" alt="Capital Compass Logo" width="150">
+  <img src="assets/logo.png" alt="Capital Compass Logo" width="300">
 </p>
 
 <h1 align="center">Capital Compass 🧭</h1>
