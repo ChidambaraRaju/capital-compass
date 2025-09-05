@@ -38,7 +38,9 @@ The application leverages a sophisticated **multi-agent system** built with **La
 
 ## 🚀 Live Demo
 
-<video src="assets/demo.mp4" controls width="600"></video>
+
+[Watch the Demo](https://github.com/ChidambaraRaju/capital-compass/blob/main/assets/demo.mp4)
+
 
 ---
 
