@@ -9,7 +9,7 @@ os.environ["GROQ_API_KEY"] = os.getenv("GROQ_API_KEY")
 if not  os.getenv("GROQ_API_KEY"):
     raise ValueError("GROQ_API_KEY is not found in environmental variables. Please set your .env file")
 
-financial_llm = ChatGroq(model="moonshotai/kimi-k2-instruct-0905")
+financial_llm = ChatGroq(model="openai/gpt-oss-20b")
 sentiment_llm = ChatGroq(model="qwen/qwen3-32b")
 report_llm = ChatGroq(model="openai/gpt-oss-120b")
 
