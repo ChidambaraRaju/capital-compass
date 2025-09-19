@@ -9,8 +9,10 @@ class CapitalCompassState(TypedDict):
         company_ticker: The stock ticker to analyze (e.g., "AAPL").
         overview_data: The raw JSON data from the Alpha Vantage OVERVIEW endpoint.
         news_data: The raw JSON data from the Alpha Vantage NEWS_SENTIMENT endpoint.
+        web_search_data: The raw data from the Tavily Search tool.
         quantitative_analysis: The LLM's analysis of the financial data.
         qualitative_analysis: The LLM's analysis of the news and sentiment.
+        websearch_analysis: The LLM's analysis of the web search results.
         critique The LLM's critique from quantitative and qualitative analysis.
         final_report: The final, synthesized investment report.
     """
@@ -18,7 +20,9 @@ class CapitalCompassState(TypedDict):
     company_ticker: str
     overview_data: dict
     news_data: dict
+    web_search_data: dict
     quantitative_analysis: str
     qualitative_analysis: str
+    websearch_analysis: str
     critique: str
     final_report: str

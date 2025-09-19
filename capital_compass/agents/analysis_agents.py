@@ -9,9 +9,10 @@ os.environ["GROQ_API_KEY"] = os.getenv("GROQ_API_KEY")
 if not  os.getenv("GROQ_API_KEY"):
     raise ValueError("GROQ_API_KEY is not found in environmental variables. Please set your .env file")
 
-financial_llm = ChatGroq(model="openai/gpt-oss-20b")
+financial_llm = ChatGroq(model="openai/gpt-oss-120b")
+webanalysis_llm = ChatGroq(model="openai/gpt-oss-120b")
 sentiment_llm = ChatGroq(model="qwen/qwen3-32b")
-report_llm = ChatGroq(model="openai/gpt-oss-120b")
+report_llm = ChatGroq(model="moonshotai/kimi-k2-instruct-0905")
 
 def analyze_financials(state: CapitalCompassState):
     """
@@ -88,6 +89,8 @@ def analyze_financials(state: CapitalCompassState):
     - Quarterly Earnings Growth (YoY): {overview.get("QuarterlyEarningsGrowthYOY")}
     - Forward P/E: {overview.get("ForwardPE")}
     - Price to Book Ratio: {overview.get("PriceToBookRatio")}
+    
+    **Finally, conclude with a "Key Strengths" section, listing the top 2-3 most positive financial indicators from your analysis.**"
     """
     response = financial_llm.invoke(prompt)
     return{"quantitative_analysis": response.content}
@@ -149,9 +152,39 @@ def analyze_sentiment(state: CapitalCompassState):
 
     **Recent News Articles:**
     {news_string}
+    
+    Do not provide an explicit investment recommendation.
+    **Conclude your summary by explicitly identifying the 'Most Positive Theme' and the 'Most Significant Risk' found in the text.**
     """
     response = sentiment_llm.invoke(prompt)
     return{"qualitative_analysis": response.content}
+
+def analyze_websearch(state: CapitalCompassState) -> dict:
+    """
+    Summarizes the raw web search results using an LLM.
+    """
+    raw_web_research = state["web_search_data"]
+    prompt = f"""
+    You are a meticulous financial research assistant. Your sole task is to parse the provided raw web search results and extract key analyst opinions.
+
+    **Raw Web Search Results:**
+    ---
+    {raw_web_research}
+    ---
+
+    **Your Summary:**
+    Based ONLY on the text provided above, extract the following information. If a specific piece of information cannot be found, state "Not found". Your output must be concise and factual. Do not add any extra commentary or opinions.
+
+    * **Overall Consensus Rating:** [Extract the consensus rating, e.g., "Strong Buy", "Buy", "Hold"]
+    * **Consensus Price Target:** [Extract the average or consensus price target, e.g., "$150.00"]
+    * **Recent Analyst Activity:** [Summarize any recent upgrades, downgrades, or initiations of coverage in one sentence]
+    
+    Do not provide an explicit investment recommendation.
+    **Conclude your summary by explicitly identifying the 'Most Positive Theme' and the 'Most Significant Risk' found in the text.**
+    """
+    response = webanalysis_llm.invoke(prompt)
+    return {"websearch_analysis": response.content}
+    
 
 def critique_analysis(state: CapitalCompassState) -> dict:
     """
@@ -160,10 +193,10 @@ def critique_analysis(state: CapitalCompassState) -> dict:
     
     quant_analysis = state["quantitative_analysis"]
     qual_analysis = state["qualitative_analysis"]
+    web_analysis = state["websearch_analysis"]
 
-    prompt = f"""
-    You are a skeptical "Red Team" analyst. Your job is to find weaknesses and contradictions in the following financial and news analyses.
-    Do not agree with the analysis. Your only role is to challenge it.
+    prompt = prompt = f"""
+    You are an expert "Risk & Opportunity Analyst". Your job is to distill the provided analyses down to their most essential points, identifying the single most compelling reason to invest (the core opportunity) and the single most significant risk that should give an investor pause.
 
     **Financial Analysis:**
     ---
@@ -173,8 +206,14 @@ def critique_analysis(state: CapitalCompassState) -> dict:
     ---
     {qual_analysis}
     ---
+    **Analyst Consensus & Web Research:**
+    ---
+    {web_analysis}
+    ---
 
-    Based on the above, provide 2-3 bullet points of critical counterarguments or overlooked risks. For example: "The financial analysis highlights strong revenue growth, but fails to address the declining profit margins." or "The news analysis is optimistic about the new product, but downplays the competitive threat from XYZ Corp mentioned in one article."
+    Based on all the information above, provide a two-part summary:
+    1.  **Core Opportunity:** A single, concise bullet point identifying the most powerful positive factor or potential catalyst.
+    2.  **Significant Risk:** A single, concise bullet point identifying the most significant risk or headwind.
     """
     
     # You can use one of your existing LLMs for this
@@ -195,6 +234,7 @@ def generate_final_report(state: CapitalCompassState):
     
     quant_analysis = state["quantitative_analysis"]
     qual_analysis = state["qualitative_analysis"]
+    web_analysis = state["websearch_analysis"]
     critique = state['critique']
     
     prompt = f"""
@@ -208,6 +248,10 @@ def generate_final_report(state: CapitalCompassState):
     **News Sentiment Analysis:**
     ---
     {qual_analysis}
+    ---
+    **Web Search Analysis:**
+    ---
+    {web_analysis}
     ---
 
     **Critical Counterarguments to Consider:**

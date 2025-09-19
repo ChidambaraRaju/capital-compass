@@ -6,3 +6,4 @@ pydantic
 streamlit
 langgraph
 langchain-core
+langchain-tavily

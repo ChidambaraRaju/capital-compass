@@ -3,8 +3,8 @@ from capital_compass.state import CapitalCompassState
 from capital_compass.exceptions import APIClientError
 
 # Import all the agent nodes
-from capital_compass.agents.data_fetcher import fetch_overview_node, fetch_news_node
-from capital_compass.agents.analysis_agents import analyze_financials, analyze_sentiment,critique_analysis, generate_final_report
+from capital_compass.agents.data_fetcher import fetch_overview_node, fetch_news_node, web_search_node
+from capital_compass.agents.analysis_agents import analyze_financials, analyze_sentiment,analyze_websearch,critique_analysis, generate_final_report
 
 # --- 1. Define the StateGraph ---
 workflow = StateGraph(CapitalCompassState)
@@ -15,6 +15,8 @@ workflow.add_node("fetch_overview", fetch_overview_node)
 workflow.add_node("fetch_news", fetch_news_node)
 workflow.add_node("analyze_financials", analyze_financials)
 workflow.add_node("analyze_sentiment", analyze_sentiment)
+workflow.add_node("web_search_node", web_search_node)
+workflow.add_node("analyze_websearch", analyze_websearch)
 workflow.add_node("critique_analysis", critique_analysis)
 workflow.add_node("generate_final_report", generate_final_report)
 
@@ -22,14 +24,17 @@ workflow.add_node("generate_final_report", generate_final_report)
 
 workflow.add_edge(START, "fetch_overview")
 workflow.add_edge(START, "fetch_news")
+workflow.add_edge(START, "web_search_node")
 
 # After fetching, each branch moves to its respective analysis
 workflow.add_edge("fetch_overview", "analyze_financials")
 workflow.add_edge("fetch_news", "analyze_sentiment")
+workflow.add_edge("web_search_node", "analyze_websearch")
 
 # After analysis, both branches converge to critique_analysis then critique_analysis to generate_final_report
 workflow.add_edge("analyze_financials", "critique_analysis")
 workflow.add_edge("analyze_sentiment", "critique_analysis")
+workflow.add_edge("analyze_websearch", "critique_analysis")
 workflow.add_edge("critique_analysis", "generate_final_report")
 
 
