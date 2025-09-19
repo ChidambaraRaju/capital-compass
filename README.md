@@ -105,9 +105,9 @@ graph TD
     A --> C[Fetch:<br/>News & Sentiment]
     A --> I[Fetch:<br/>Web Search]
 
-    B --> D[Analyze:<br/>Financials]
-    C --> E[Analyze:<br/>Sentiment]
-    I --> J[Summarize:<br/>Web Research]
+    B --> D{Analyze:<br/>Financials}
+    C --> E{Analyze:<br/>Sentiment}
+    I --> J{Summarize:<br/>Web Research}
 
     D --> F[Balanced Review:<br/>Risk & Opportunity]
     E --> F
@@ -125,7 +125,8 @@ graph TD
     classDef default fill:#0B1220,stroke:#93C5FD,color:#E5E7EB,stroke-width:1.5px
 
     class B,C fetch
-    class I,J websearch
+    class I websearch
+    class J analyze
     class D,E analyze
     class F critic
     class G final
