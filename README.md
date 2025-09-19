@@ -203,7 +203,8 @@ streamlit run main.py
 │   │   ├── analysis_agents.py
 │   │   └── data_fetcher.py
 │   ├── tools/
-│   │   └── alpha_vantage_client.py
+│   │   ├── alpha_vantage_client.py
+        └── tavily_search_tool.py
 │   ├── exceptions.py
 │   ├── graph.py
 │   └── state.py
