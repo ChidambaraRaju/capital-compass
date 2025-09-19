@@ -179,6 +179,7 @@ Create a `.env` file in the project root with:
 ```bash
 ALPHAVANTAGE_API_KEY="YOUR_ALPHA_VANTAGE_KEY"
 GROQ_API_KEY="YOUR_GROQ_API_KEY"
+TAVILY_API_KEY = "YOUR_TAVILY_API_KEY"
 ```
 
 ---
