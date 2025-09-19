@@ -101,20 +101,20 @@ It then weighs the **core opportunity** against the **significant risk** to prod
 }}%%
 
 graph TD
-    A[Start: User Enters Ticker] --> B(Fetch Overview)
-    A --> C(Fetch News)
-    A --> I((Web Search))
+    A[Start:<br/>User Enters Ticker] --> B[Fetch:<br/>Financial Overview]
+    A --> C[Fetch:<br/>News & Sentiment]
+    A --> I[Fetch:<br/>Web Search]
 
-    B --> D{Analyze Financials}
-    C --> E{Analyze Sentiment}
-    I --> J{Summarize Web Research}
+    B --> D[Analyze:<br/>Financials]
+    C --> E[Analyze:<br/>Sentiment]
+    I --> J[Summarize:<br/>Web Research]
 
-    D --> F(Balanced Review)
+    D --> F[Balanced Review:<br/>Risk & Opportunity]
     E --> F
     J --> F
 
-    F --> G[Generate Final Report]
-    G --> H[End: Display Report]
+    F --> G[Final Synthesis:<br/>Generate Report]
+    G --> H[End:<br/>Display Report]
 
     %% Dark-friendly styles
     classDef fetch fill:#0F172A,stroke:#818CF8,color:#E5E7EB,stroke-width:2px
@@ -129,6 +129,7 @@ graph TD
     class D,E analyze
     class F critic
     class G final
+
 ```
 
 ---
