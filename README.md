@@ -46,14 +46,43 @@ The application leverages a sophisticated **multi-agent system** built with **La
 
 ## 🛠️ How It Works (Architecture)
 
-The core of Capital Compass is a **stateful graph built with LangGraph**. This orchestrates data and logic between AI agents, ensuring structured and robust analysis.
+The core of **Capital Compass** is a **stateful graph built with LangGraph**. This orchestrates a sophisticated workflow between specialized AI agents to ensure a robust and nuanced analysis.
 
-1. **Parallel Data Fetching** – Simultaneously pulls financial overview and news sentiment from Alpha Vantage.  
-2. **Specialized Analysis** –  
-   - *Financial Analyst Agent*: Deep dives into quantitative metrics.  
-   - *Sentiment Analyst Agent*: Evaluates qualitative news & market perception.  
-3. **Critical Review** – A *Critic Agent* challenges both analyses to identify weaknesses, risks, or contradictions.  
-4. **Final Synthesis** – A *Senior Advisor Agent* combines all inputs into a decisive investment report.  
+
+
+### 1. Parallel Information Gathering
+The process begins by simultaneously gathering three distinct types of information:
+
+- 📊 **Financial Overview**: Fetches quantitative financial data from **Alpha Vantage**.  
+- 📰 **News & Market Sentiment**: Fetches qualitative news and sentiment from **Alpha Vantage**.  
+- 🔍 **Forward-Looking Insights**: Performs a targeted **web search** for analyst ratings and price targets.  
+
+
+
+### 2. Specialized Analysis
+The raw data is then processed in parallel by three specialist agents:
+
+- 👨‍💼 **Financial Analyst Agent** → Interprets financial metrics.  
+- 🧠 **Sentiment Analyst Agent** → Evaluates news and market perception.  
+- 🌐 **Web Research Agent** → Summarizes findings from the web search.  
+
+
+
+### 3. Balanced Review
+All three analyses are passed to the **Risk & Opportunity Analyst**.  
+- 🎯 **Role**: Distill everything into:
+  - The **most compelling reason to invest**.  
+  - The **most significant risk**.  
+
+
+
+### 4. Final Synthesis
+Finally, the **Senior Advisor Agent** receives:
+- The specialist analyses  
+- The balanced review  
+
+It then weighs the **core opportunity** against the **significant risk** to produce a **structured, decisive investment report**.
+
 ---
 ## 🎯 Workflow Diagram
 
@@ -74,21 +103,29 @@ The core of Capital Compass is a **stateful graph built with LangGraph**. This o
 graph TD
     A[Start: User Enters Ticker] --> B(Fetch Overview)
     A --> C(Fetch News)
+    A --> I((Web Search))
+
     B --> D{Analyze Financials}
     C --> E{Analyze Sentiment}
-    D --> F(Critique Analysis)
+    I --> J{Summarize Web Research}
+
+    D --> F(Balanced Review)
     E --> F
+    J --> F
+
     F --> G[Generate Final Report]
     G --> H[End: Display Report]
 
     %% Dark-friendly styles
     classDef fetch fill:#0F172A,stroke:#818CF8,color:#E5E7EB,stroke-width:2px
+    classDef websearch fill:#1E1B4B,stroke:#A5B4FC,color:#E0E7FF,stroke-width:2px
     classDef analyze fill:#111827,stroke:#60A5FA,color:#E5E7EB,stroke-width:2px
     classDef critic fill:#1F0A0A,stroke:#FCA5A5,color:#FEE2E2,stroke-width:2px
     classDef final fill:#052E2B,stroke:#34D399,color:#D1FAE5,stroke-width:2px
     classDef default fill:#0B1220,stroke:#93C5FD,color:#E5E7EB,stroke-width:1.5px
 
     class B,C fetch
+    class I,J websearch
     class D,E analyze
     class F critic
     class G final
