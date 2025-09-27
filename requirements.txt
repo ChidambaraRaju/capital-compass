@@ -7,3 +7,5 @@ streamlit
 langgraph
 langchain-core
 langchain-tavily
+pytest
+guardrails-ai

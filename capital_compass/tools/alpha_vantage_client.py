@@ -23,6 +23,8 @@ def get_company_overview(ticker: str) -> dict:
         response.raise_for_status()  # Checks for bad HTTP responses
         data = response.json()
         
+        if not data or "Error Message" in data:
+            raise APIClientError(f"Ticker '{ticker}' not found or is invalid. Please check the symbol.")
         # Handles cases where the API returns a note (e.g., rate limit)
         if not data or "Note" in data:
             raise APIClientError(f"API limit reached or no data found for OVERVIEW of {ticker}.")
