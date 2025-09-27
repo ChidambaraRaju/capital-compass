@@ -179,6 +179,7 @@ Create a `.env` file in the project root with:
 ```bash
 ALPHAVANTAGE_API_KEY="YOUR_ALPHA_VANTAGE_KEY"
 GROQ_API_KEY="YOUR_GROQ_API_KEY"
+TAVILY_API_KEY = "YOUR_TAVILY_API_KEY"
 ```
 
 ---
@@ -203,7 +204,8 @@ streamlit run main.py
 │   │   ├── analysis_agents.py
 │   │   └── data_fetcher.py
 │   ├── tools/
-│   │   └── alpha_vantage_client.py
+│   │   ├── alpha_vantage_client.py
+        └── tavily_search_tool.py
 │   ├── exceptions.py
 │   ├── graph.py
 │   └── state.py
