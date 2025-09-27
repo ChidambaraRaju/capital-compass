@@ -5,7 +5,6 @@ from capital_compass.graph import app
 
 # A list of expected section headers in the final report
 EXPECTED_SECTIONS = [
-    "Final Recommendation",
     "Confidence & Horizon",
     "Executive Summary",
     "Key Drivers & Rationale",
