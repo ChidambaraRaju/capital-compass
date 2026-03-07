@@ -231,14 +231,32 @@ def generate_final_report(state: CapitalCompassState):
     Returns:
         A dictionary with the final report.
     """
-    
+    from datetime import datetime
+
     quant_analysis = state["quantitative_analysis"]
     qual_analysis = state["qualitative_analysis"]
     web_analysis = state["websearch_analysis"]
     critique = state['critique']
-    
+    company_ticker = state["company_ticker"]
+
+    # Get company name from overview data (handle both normalized and non-normalized keys)
+    overview = state.get("overview_data", {})
+    company_name = (
+        overview.get("Name") or
+        overview.get("1. Name") or
+        company_ticker
+    )
+
+    # Get current date
+    current_date = datetime.now().strftime("%B %d, %Y")
+
     prompt = f"""
     You are a decisive senior investment advisor for "Capital Compass", preparing a confidential briefing memo for a knowledgeable but busy client. Your analysis must be clear, data-driven, and lead to a definitive conclusion.
+
+    **Report Header Information:**
+    - Company: {company_name} ({company_ticker})
+    - Date: {current_date}
+
 
     **Financial Analysis:**
     ---
@@ -261,6 +279,13 @@ def generate_final_report(state: CapitalCompassState):
     
     **Final Investment Report:**
     Your primary task is to determine if the Bull Case decisively outweighs the Bear Case, or vice-versa. Based on this weighting, generate a professional investment report.
+
+    **IMPORTANT:** Start your report with the following header:
+    ---
+    **Capital Compass – Confidential Brief Memo**
+    Company: {company_name} ({company_ticker}) | Date: {current_date}
+    ---
+    Then proceed with the report sections below.
 
     **1. Final Recommendation**
     -   Your primary recommendation must be either **"Invest"** or **"Do Not Invest"**.

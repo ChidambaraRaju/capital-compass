@@ -51,15 +51,69 @@ def get_news_sentiment(ticker: str) -> dict:
 
         if not data or "Note" in data:
             raise APIClientError(f"API limit reached or no data found for NEWS_SENTIMENT of {ticker}.")
-            
+
         return data
     except requests.exceptions.RequestException as e:
         raise APIClientError(f"Network error fetching news sentiment for {ticker}: {e}")
     except requests.exceptions.JSONDecodeError:
         raise APIClientError(f"Failed to decode JSON response for NEWS_SENTIMENT of {ticker}.")
 
-'''
-Self testing code
+
+def search_company_by_name(keywords: str) -> list[dict]:
+    """
+    Search for company ticker by company name or partial name using Alpha Vantage SYMBOL_SEARCH endpoint.
+
+    Args:
+        keywords: Company name or partial name to search
+
+    Returns:
+        List of matching companies with keys: symbol, name, type, region, marketOpen, marketClose, timezone, currency, matchScore
+        Sorted by matchScore in descending order (best matches first)
+
+    Raises:
+        APIClientError: If API request fails or returns error
+    """
+    url = f"https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords={keywords}&apikey={API_KEY}"
+
+    try:
+        response = requests.get(url)
+        response.raise_for_status()
+        data = response.json()
+
+        # Handle API rate limit or no data
+        if data and "Note" in data:
+            raise APIClientError(f"API limit reached or no data found for search: {keywords}.")
+
+        # Get best matches from response
+        matches = data.get("bestMatches", [])
+
+        # Normalize keys - Alpha Vantage returns numbered keys like "1. symbol", "2. name"
+        normalized = []
+        for match in matches:
+            normalized.append({
+                "symbol": match.get("1. symbol") or match.get("symbol"),
+                "name": match.get("2. name") or match.get("name"),
+                "type": match.get("3. type") or match.get("type"),
+                "region": match.get("4. region") or match.get("region"),
+                "marketOpen": match.get("5. marketOpen") or match.get("marketOpen"),
+                "marketClose": match.get("6. marketClose") or match.get("marketClose"),
+                "timezone": match.get("7. timezone") or match.get("timezone"),
+                "currency": match.get("8. currency") or match.get("currency"),
+                "matchScore": match.get("9. matchScore") or match.get("matchScore"),
+            })
+
+        # Sort by match score (descending) - best matches first
+        normalized.sort(key=lambda x: float(x.get("matchScore", 0)), reverse=True)
+
+        return normalized
+
+    except requests.exceptions.RequestException as e:
+        raise APIClientError(f"Network error searching for company '{keywords}': {e}")
+    except requests.exceptions.JSONDecodeError:
+        raise APIClientError(f"Failed to decode JSON response for search: {keywords}.")
+
+
+#Self testing code
 if __name__ == "__main__":
     ticker = "AAPL"
     try:
@@ -70,4 +124,3 @@ if __name__ == "__main__":
         # print(news_data)
     except APIClientError as e:
         print(f"An error occurred: {e}")
-'''

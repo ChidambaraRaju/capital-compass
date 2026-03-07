@@ -19,7 +19,8 @@ def tavily_search_tool(ticker: str):
     return results
 
 
-'''Self testing code
+'''
+#Self testing code
 if __name__ == "__main__":
     ticker = "NVDA"
     search_results = tavily_search_tool(ticker)
